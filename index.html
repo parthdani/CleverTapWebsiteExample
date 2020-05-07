@@ -1,0 +1,188 @@
+
+<html>
+<head>
+	<title>LoginTest</title>
+	<link rel="manifest" href="/manifest.json">
+	<link rel="stylesheet" type="text/css" href="style.css">
+ <script type="text/javascript">
+     var clevertap = {event:[], profile:[], account:[], onUserLogin:[], notifications:[], privacy:[]};
+	clevertap.account.push({"id": "TEST-4R6-8Z4-965Z"});
+	clevertap.privacy.push({optOut: false}); 
+	clevertap.privacy.push({useIP: true}); 
+ 	(
+ 		function () 
+ 	{
+		 var wzrk = document.createElement('script');
+		 wzrk.type = 'text/javascript';
+		 wzrk.async = true;
+		 wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/a.js';
+		 var s = document.getElementsByTagName('script')[0];
+		 s.parentNode.insertBefore(wzrk, s);
+  	})();
+
+    function profilepush()
+    {
+    	var name=document.getElementById("name").value;
+  		var email=document.getElementById("email").value;
+
+  		clevertap.profile.push({
+          "Site": {
+           "Name": name, // User's name
+           "Email": email,
+                  }
+                              });
+    }
+
+
+
+    function onuserLogin()
+  	{
+
+      clevertap.event.push("Product Viewed");
+
+  		var name=document.getElementById("name").value;
+  		var email=document.getElementById("email").value;
+
+  		clevertap.onUserLogin.push
+  		({
+ 			"Site": 
+ 			{
+   				"Name": name, 
+   				"Email": email,
+ 			}
+		});
+
+		console.log("onuserlogin called");
+
+     // clevertap.notifications.push({
+     // "titleText":'Would you like to receive Push Notifications?',
+     // "bodyText":'We promise to only send you relevant content and give you updates on your transactions',
+     // "okButtonText":'Sign me up!',
+     // "rejectButtonText":'No thanks',
+     // "okButtonColor":'#f28046',
+     // });
+
+		  //alert("Hello! You have Registered Successfully!!");
+  	}
+
+  	function events()
+  	{
+
+
+console.log("notification method called");
+
+  		var event=document.getElementById("event").value;
+  		clevertap.event.push(event);
+//		alert("Event Pushed Successfully!!");
+		
+  	}
+
+    function getCleverTap()
+    {
+      var clevertapID = clevertap.getCleverTapID();
+      console.log(clevertapID);
+      alert(clevertapID);
+    }
+
+
+  	
+
+</script>
+
+<!-- <script>
+	(
+		function(w,d,s,l,i)
+		{
+			w[l]=w[l]||[];w[l].push(
+			{
+				'gtm.start': new Date().getTime(),event:'gtm.js'
+			}
+				);
+		var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+}
+)
+	(window,document,'script','dataLayer','GTM-52Z3GSV');
+
+
+    function profilepush()
+    {
+    	var name=document.getElementById("name").value;
+  		var email=document.getElementById("email").value;
+
+  		clevertap.profile.push({
+          "Site": {
+           "Name": name, // User's name
+           "Email": email,
+                  }
+                              });
+    }
+
+
+
+    function onuserLogin()
+  	{
+
+  		var name=document.getElementById("name").value;
+  		var email=document.getElementById("email").value;
+
+  		clevertap.onUserLogin.push
+  		({
+ 			"Site": 
+ 			{
+   				"Name": name, 
+   				"Email": email,
+ 			}
+		});
+
+		console.log("onuserlogin called");
+
+     clevertap.notifications.push({
+     "titleText":'Would you like to receive Push Notifications?',
+     "bodyText":'We promise to only send you relevant content and give you updates on your transactions',
+     "okButtonText":'Sign me up!',
+     "rejectButtonText":'No thanks',
+     "okButtonColor":'#f28046',
+     });
+
+		alert("Hello! You have Registered Successfully!!");
+  	}
+
+  	function events()
+  	{
+
+
+console.log("notification method called");
+
+  		var event=document.getElementById("event").value;
+  		clevertap.event.push(event);
+//		alert("Event Pushed Successfully!!");
+		
+  	}
+
+</script> -->
+
+</head>
+<body>
+<noscript>
+<!--	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-52Z3GSV" height="0" width="0" style="display:none;visibility:hidden">
+	</iframe>-->
+</noscript>
+	<div class="login-page">
+		<div class="form">
+			<!-- <form class="register-form"> -->
+				<h1>ON USER LOGIN</h1>
+				<input type="text" id="name" placeholder="NAME" name=""/>
+				<input type="text" id="email" placeholder="EMAIL ID" name=""/>
+			
+				<button onclick="onuserLogin()">LOGIN</button>
+				<br><br>
+				<input type="text" id="event" placeholder="EVENTS" name=""/>
+				<button onclick="events()">PUSH EVENT</button>
+        <button onclick="getCleverTap()">Get CleverTap ID</button>
+				<p class="message">Click here to check :<button onclick ="profilepush()">Profile Push</button>
+				<a href="mypage2.html">Go to the anchor</a>
+			<!-- </form> -->
+		</div>
+	</div>
+</body>
+</html>
