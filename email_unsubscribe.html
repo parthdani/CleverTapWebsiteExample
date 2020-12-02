@@ -25,20 +25,17 @@ clevertap.privacy.push({useIP: false}); //set the flag to true, if the user agre
 <body data-new-gr-c-s-check-loaded="14.984.0" data-gr-ext-installed="">
 
 
-    <div>
-        <h4>I want to unsubscribe from future emails</h4>
-        <input type="text" id="email" readonly="readonly">
-        <br><br>
-        <!--<button onclick="unsubscribe()">Unsubscribe me</button><br><br>-->
-        
+    <div>    
+        <h4>I want to unsubscribe from future emails
+    </h4>        
+    <input type="text" id="email" /> 
+    <br/><br/>
+    <!-- Displaying unsubscribe groups in the below div once loaded -->
         <div id="unsubscribe-groups" style="display: none"></div>
     <!-- Unsubscribe groups buttont. User will click here and it should call `changeSubscriptionGroups`
         method to send the request to CleverTap. -->
         <button onclick="changeSubscriptionGroups()">Update Subscription Groups</button>    
-        <!-- button onclick="resubscribe()">Resubscribe</button -->
-    </div>
-
-
+    </div> 
 
     <script>
         // on  page load, fetch the email id of the user.
@@ -51,18 +48,17 @@ clevertap.privacy.push({useIP: false}); //set the flag to true, if the user agre
             document.getElementById("email").value = emailStr;
             
             if(!profile || !profile.groups || profile.groups.length === 0) {
-            console.log("did not recv groups in callback");
-        }
+                    console.log("did not recv groups in callback");
+                }
              var subscriptionGroups = profile.groups; // will be recvd only if withGroups passed true above
              $WZRK_WR.setSubscriptionGroups(subscriptionGroups); // Can also be set here and can be retrieved by calling `$WZRK_WR.getSubscriptionGroups` method
             $WZRK_WR.setUpdatedCategoryLong(profile);
-            displayGroups()
-            
+            displayGroups();     
         }
         
         function displayGroups() {
         //   Fetching groups
-                var subscriptionGroups = $WZRK_WR.getSubscriptionGroups();
+            var subscriptionGroups = $WZRK_WR.getSubscriptionGroups();
         //  Rendering groups in above html div
             var addList = document.getElementById('unsubscribe-groups');
             addList.style.display = 'block';
@@ -94,7 +90,6 @@ clevertap.privacy.push({useIP: false}); //set the flag to true, if the user agre
                 statusLabel = 'unsubscribed';
             }
             alert("You've been " + statusLabel);
-
         }
 
         // call this function to unsubscribe the user
@@ -103,19 +98,19 @@ clevertap.privacy.push({useIP: false}); //set the flag to true, if the user agre
 
         }
             
-  function changeSubscriptionGroups(){
-    let unsubcribeGroups = [];
-        var elements = document.getElementsByClassName(
-            "ct-unsub-group-input-item");
-        for (var i = 0; i < elements.length; i++) {
-            var element = elements[i];
-            if(element.name) {
-                var data = {name: element.name, isUnsubscribed: element.checked}
-                unsubcribeGroups.push(data)
+        function changeSubscriptionGroups(){
+            let unsubcribeGroups = [];
+            var elements = document.getElementsByClassName(
+                "ct-unsub-group-input-item");
+            for (var i = 0; i < elements.length; i++) {
+                var element = elements[i];
+                if(element.name) {
+                    var data = {name: element.name, isUnsubscribed: element.checked}
+                    unsubcribeGroups.push(data)
+                }
             }
-        }
-        $WZRK_WR.changeSubscriptionGroups(false, unsubcribeGroups);
-     } 
+            $WZRK_WR.changeSubscriptionGroups(false, unsubcribeGroups);
+        } 
 
         // call this function to resubscribe the user
         function resubscribe() {
