@@ -37,30 +37,28 @@ clevertap.privacy.push({useIP: false}); //set the flag to true, if the user agre
         <button onclick="changeSubscriptionGroups()">Update Subscription Groups</button>    
     </div> 
 
-    <script>
-        // on  page load, fetch the email id of the user.
-        window.onload = function() {
-            $WZRK_WR.getEmail();
-        };
-
-        // will be called after the email id of the user has been fetched
-        function wzrk_email_fetched(emailStr) {
-            document.getElementById("email").value = emailStr;
-            
-            if(!profile || !profile.groups || profile.groups.length === 0) {
-                    console.log("did not recv groups in callback");
-                }
-             var subscriptionGroups = profile.groups; // will be recvd only if withGroups passed true above
-             $WZRK_WR.setSubscriptionGroups(subscriptionGroups); // Can also be set here and can be retrieved by calling `$WZRK_WR.getSubscriptionGroups` method
-            $WZRK_WR.setUpdatedCategoryLong(profile);
-            displayGroups();     
+   <script> 
+   window.onload = function() {
+        var isReEncode = false //Should be true only if your server is url encoding the URL on unsubscribe landing page     
+        var withGroups = true  // Should be true if the unsubscribe groups should be displayed on the landing page.
+        $WZRK_WR.getEmail(false, withGroups);
+    };
+    // will be called after the email id of the user has been fetched
+    function wzrk_email_fetched(emailStr, profile) {
+        document.getElementById("email").value = emailStr;
+        if(!profile || !profile.groups || profile.groups.length === 0) {
+            console.log("did not recv groups in callback");
         }
-        
-        function displayGroups() {
-        //   Fetching groups
-            var subscriptionGroups = $WZRK_WR.getSubscriptionGroups();
-        //  Rendering groups in above html div
-            var addList = document.getElementById('unsubscribe-groups');
+        var subscriptionGroups = profile.groups; // will be recvd only if withGroups passed true above
+        $WZRK_WR.setSubscriptionGroups(subscriptionGroups); // Can also be set here and can be retrieved by calling `$WZRK_WR.getSubscriptionGroups` method
+         $WZRK_WR.setUpdatedCategoryLong(profile);
+        displayGroups()
+    }
+  function displayGroups() {
+    //   Fetching groups
+      var subscriptionGroups = $WZRK_WR.getSubscriptionGroups();
+    //  Rendering groups in above html div
+      var addList = document.getElementById('unsubscribe-groups');
             addList.style.display = 'block';
             for(var i = 0; i < subscriptionGroups.length; i++) {
                 var obj = subscriptionGroups[i];
@@ -80,43 +78,33 @@ clevertap.privacy.push({useIP: false}); //set the flag to true, if the user agre
                 addList.appendChild(checkBox);
                 addList.append(document.createElement('br'));
             }
-
-        // will be called after the subscription preferences for the user have been updated
-        function wzrk_email_subscription(status) {
-            //status 0 : unsubscribed, status 1 : subscribed
-            // todo - you can show a success message to the user from here
-            var statusLabel = 'subscribed';
-            if (status == 0) {
-                statusLabel = 'unsubscribed';
+  }
+// This function is used to send groups updation request. User can directly call
+// `$WZRK_WR.changeSubscriptionGroups(isReencode, updatedGroups)` by passing updated groups in format specified.
+   function changeSubscriptionGroups(){
+    let unsubcribeGroups = [];
+        var elements = document.getElementsByClassName(
+            "ct-unsub-group-input-item");
+        for (var i = 0; i < elements.length; i++) {
+            var element = elements[i];
+            if(element.name) {
+                var data = {name: element.name, isUnsubscribed: element.checked}
+                unsubcribeGroups.push(data)
             }
-            alert("You've been " + statusLabel);
         }
-
-        // call this function to unsubscribe the user
-        function unsubscribe() {
-            $WZRK_WR.unSubEmail();
-
+        $WZRK_WR.changeSubscriptionGroups(false, unsubcribeGroups);
+     } 
+    // will be called after the subscription preferences for the user have been updated
+    function wzrk_email_subscription(status) {
+        //status 0 : unsubscribed, status 1 : subscribed
+        // todo - you can show a success message to the user from here
+        var statusLabel = 'subscribed';
+        if (status == 0) {
+            statusLabel = 'unsubscribed';
         }
-            
-        function changeSubscriptionGroups(){
-            let unsubcribeGroups = [];
-            var elements = document.getElementsByClassName(
-                "ct-unsub-group-input-item");
-            for (var i = 0; i < elements.length; i++) {
-                var element = elements[i];
-                if(element.name) {
-                    var data = {name: element.name, isUnsubscribed: element.checked}
-                    unsubcribeGroups.push(data)
-                }
-            }
-            $WZRK_WR.changeSubscriptionGroups(false, unsubcribeGroups);
-        } 
-
-        // call this function to resubscribe the user
-        function resubscribe() {
-            $WZRK_WR.subEmail();
-        }
-    </script>
+        alert("You've been " + statusLabel);
+    }
+ </script>
 
 
 
