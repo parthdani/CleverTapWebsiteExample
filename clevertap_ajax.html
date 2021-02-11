@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>LoginTest</title>
+	<link rel="manifest" href="https://parthdani.github.io/CleverTapWebsiteExample/manifest.json">
+	<link rel="stylesheet" type="text/css" href="style.css">
+ <script type="text/javascript">
+     var clevertap = {event:[], profile:[], account:[], onUserLogin:[], notifications:[], privacy:[]};
+	 clevertap.spa = true
+	clevertap.account.push({"id": "TEST-4R6-8Z4-965Z"});
+	clevertap.privacy.push({optOut: false}); 
+	clevertap.privacy.push({useIP: true}); 
+ 	(
+ 		function () 
+ 	{
+		 var wzrk = document.createElement('script');
+		 wzrk.type = 'text/javascript';
+		 wzrk.async = true;
+		 //wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/a.js';
+		 wzrk.src = ('https:' == document.location.protocol ? 'https://parthdani.github.io/CleverTapWebsiteExample/clevertap.js':'http://static.clevertap.com/js/a.js');
+		  var s = document.getElementsByTagName('script')[0];
+		 s.parentNode.insertBefore(wzrk, s);
+  	})();
+
+    function events()
+  	{
+      console.log("notification method called");
+  		//var event=document.getElementById("event").value;
+  		clevertap.event.push("Product Viewed");
+      alert("Event Pushed Successfully!!");
+  	}
+</script>
+
+
+
+</head>
+<body>
+
+<h1>The XMLHttpRequest Object</h1>
+
+<p id="demo">Let AJAX change this text.</p>
+
+<button type="button" onclick="loadDoc()">Change Content</button>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log("notification method called");
+  		//var event=document.getElementById("event").value;
+  		clevertap.event.push("Product Viewed");
+      alert("Event Pushed Successfully!!");
+      document.getElementById("demo").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "ajax_info.txt", true);
+  xhttp.send();
+}
+</script>
+
+</body>
+</html>
